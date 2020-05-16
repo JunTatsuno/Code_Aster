@@ -23,23 +23,23 @@ Wizard（Add Stage with Assistant）＞Isotropic liner elasticity（等方性線
 
 ## 4.0 部品の連結
 複数のSolidを境界面ではモデルの節点を共有せずに連結（結合）してAssyを作り、Assyの線形解析を行います。
-* [部品間の隙間が無いモデルの場合](https://github.com/JunTatsuno/Code_Aster/tree/master/Assy)
-* [部品間に隙間があるモデルの場合](https://github.com/JunTatsuno/Code_Aster/tree/master/Assy)
+* [部品間の隙間が無いモデルの場合](https://github.com/JunTatsuno/Code_Aster/tree/master/Assy)：multi-bar-1.comm multi-bar-1.med
+* [部品間に隙間があるモデルの場合](https://github.com/JunTatsuno/Code_Aster/tree/master/Assy)：multi-bar-1-1.comm multi-bar-1-1.med
 * [連結（結合）の定義方法の確認](https://github.com/JunTatsuno/Code_Aster/tree/master/Assy)
 
 ## 5.0 線形熱応力
 静的に熱応力を計算します。
 温度は均一に分布しているものとして線形の弾性解析を行います。
-* [単純モデルの場合](https://github.com/JunTatsuno/Code_Aster/tree/master/thermal-bar)
-* [Bi-Metalのモデルの場合](https://github.com/JunTatsuno/Code_Aster/tree/master/thermal-circle)
+* [単純モデルの場合](https://github.com/JunTatsuno/Code_Aster/tree/master/thermal-bar)：bar-100.comm bar-100.med
+* [Bi-Metalのモデルの場合](https://github.com/JunTatsuno/Code_Aster/tree/master/thermal-circle)：circle2.comm circle2.med
 
 ## 6.0 接触解析の基本
 
 ## 6.1 接触解析（摩擦あり）
 
 ## 7.0 塑性変形の基本
-* [単純な片持ち梁](https://github.com/JunTatsuno/Code_Aster/tree/master/plastic)
-* [円柱の圧縮](https://github.com/JunTatsuno/Code_Aster/tree/master/plastic-pole)
+* [単純な片持ち梁](https://github.com/JunTatsuno/Code_Aster/tree/master/plastic)：bar.comm bar.med
+* [円柱の圧縮](https://github.com/JunTatsuno/Code_Aster/tree/master/plastic-pole)：plastic-pole.comm pole.med
 
 ## 7.1 塑性（負荷を変化）
 * 変位拘束
@@ -79,8 +79,8 @@ Wizard（Add Stage with Assistant）＞Liner thermal analysis（線形熱解析�
 ## 15.0 温度構造解析連携
 
 ## 16.0 シェル解析（基本）
-* 1次メッシュの場合
-* 高次メッシュの場合
+* [1次メッシュの場合](https://github.com/JunTatsuno/Code_Aster/tree/master/shell-1P)：DKTshel-1P.comm DKTshel-1P.med
+* [高次メッシュの場合](https://github.com/JunTatsuno/Code_Aster/tree/master/shell-1P)：COQUEshell-1P.comm COQUEshell-1P.med
 
 ## 16.1 シェル解析（複数シェル）
 
