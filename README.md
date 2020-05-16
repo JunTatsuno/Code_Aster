@@ -3,7 +3,7 @@
 * Code_Asterとは熱・構造問題ソルバーです。
 * Salomeとは物理シミュレーションの汎用プラットフォームす。
 
-Salome-Meca=Salome+Code_Aster（ソフト的統合）
+  Salome-Meca=Salome+Code_Aster（ソフト的統合）
 
 
 [OpenCAE Users Wiki](http://opencae.gifu-nct.ac.jp/pukiwiki/index.php?OpenCAE%20Users%20Wiki)にあるFS氏ご提供の「[SALOME-Mecaの使用法解説](http://opencae.gifu-nct.ac.jp/pukiwiki/index.php?SALOME-Meca%A4%CE%BB%C8%CD%D1%CB%A1%B2%F2%C0%E2)」をSalome-Meca2019（Code_Aster14.4）用いて設定を行いました。
@@ -21,7 +21,11 @@ Wizard（Add Stage with Assistant）＞Isotropic liner elasticity（等方性線
 その材質が異なる境界面ではモデルの節点が共有されており、全体としてのモデルはSolidが1個になるという考え方です。
 * [2種類の材料で構成されるモデル](https://github.com/JunTatsuno/Code_Aster/tree/master/multiP)：multi-bar-1.comm multi-bar-1.med
 
-## 4.0 [部品の連結](https://github.com/JunTatsuno/Code_Aster/tree/master/Assy)
+## 4.0 部品の連結
+複数のSolidを境界面ではモデルの節点を共有せずに連結（結合）してAssyを作り、Assyの線形解析を行います。
+* [部品間の隙間が無いモデルの場合](https://github.com/JunTatsuno/Code_Aster/tree/master/Assy)
+* [部品間に隙間があるモデルの場合](https://github.com/JunTatsuno/Code_Aster/tree/master/Assy)
+* [連結（結合）の定義方法の確認](https://github.com/JunTatsuno/Code_Aster/tree/master/Assy)
 
 ## 5.0 線形熱応力
 静的に熱応力を計算します。
@@ -38,14 +42,21 @@ Wizard（Add Stage with Assistant）＞Isotropic liner elasticity（等方性線
 * [円柱の圧縮](https://github.com/JunTatsuno/Code_Aster/tree/master/plastic-pole)
 
 ## 7.1 塑性（負荷を変化）
+* 変位拘束
+* 荷重拘束
 
 ## 7.2 塑性（結果の検証）
 
 ## 8.0 塑性と接触
+* 単純モデルの場合
+* かしめのモデルの場合
+* 治具による かしめのモデルの場合
 
 ## 9.0 熱応力と弾塑性（基本）
 
 ## 9.1 熱応力と弾塑性（はんだ）
+* 線形熱応力解析
+* 非線形熱応力解析
 
 ## 10.0 モーダル解析
 Wizard（Add Stage with Assistant）＞Modal analysys（モーダル解析）による手順
