@@ -16,21 +16,22 @@ Wizard（Add Stage with Assistant）＞Isotropic liner elasticity（等方性線
 
 ## 2.0 境界条件の設定
 
-## 3.0 [複合材料の設定](https://github.com/JunTatsuno/Code_Aster/tree/master/multiP)
+## 3.0 複合材料の設定
 複合材とは材質の異なる形状のものが組み合わさって構成されるモデルです。
 その材質が異なる境界面ではモデルの節点が共有されており、全体としてのモデルはSolidが1個になるという考え方です。
+* [2種類の材料で構成されるモデル](https://github.com/JunTatsuno/Code_Aster/tree/master/multiP)：multi-bar-1.comm multi-bar-1.med
 
 ## 4.0 [部品の連結](https://github.com/JunTatsuno/Code_Aster/tree/master/Assy)
-
-## 6.0 接触解析の基本
-
-## 6.1 接触解析（摩擦あり）
 
 ## 5.0 線形熱応力
 静的に熱応力を計算します。
 温度は均一に分布しているものとして線形の弾性解析を行います。
 * [単純モデルの場合](https://github.com/JunTatsuno/Code_Aster/tree/master/thermal-bar)
 * [Bi-Metalのモデルの場合](https://github.com/JunTatsuno/Code_Aster/tree/master/thermal-circle)
+
+## 6.0 接触解析の基本
+
+## 6.1 接触解析（摩擦あり）
 
 ## 7.0 塑性変形の基本
 * [単純な片持ち梁](https://github.com/JunTatsuno/Code_Aster/tree/master/plastic)
@@ -46,10 +47,10 @@ Wizard（Add Stage with Assistant）＞Isotropic liner elasticity（等方性線
 
 ## 9.1 熱応力と弾塑性（はんだ）
 
-## 10.0 [モーダル解析](https://github.com/JunTatsuno/Code_Aster/tree/master/modal)
+## 10.0 モーダル解析
 Wizard（Add Stage with Assistant）＞Modal analysys（モーダル解析）による手順
-* 単純モデルの解析：bar100.comm bar100.med
-* L字モデルの解析：modal-bar.comm modal-bar.med
+* [単純モデルの解析](https://github.com/JunTatsuno/Code_Aster/tree/master/modal)：bar100.comm bar100.med
+* [L字モデルの解析](https://github.com/JunTatsuno/Code_Aster/tree/master/modal)：modal-bar.comm modal-bar.med
 
 ## 11.0 周波数応答（減衰無）
 
