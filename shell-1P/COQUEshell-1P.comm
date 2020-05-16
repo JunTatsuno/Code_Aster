@@ -1,0 +1,84 @@
+DEBUT(LANG='EN')
+
+MAIL = LIRE_MAILLAGE(FORMAT='MED',
+                     UNITE=20)
+
+meshMod = CREA_MAILLAGE(MAILLAGE=MAIL,
+                        MODI_MAILLE=_F(OPTION='TRIA6_7',
+                                       TOUT='OUI'))
+
+meshMod = MODI_MAILLAGE(reuse=meshMod,
+                        MAILLAGE=meshMod,
+                        ORIE_NORM_COQUE=_F(GROUP_MA=('assy', )))
+
+MODE = AFFE_MODELE(AFFE=_F(MODELISATION=('COQUE_3D', ),
+                           PHENOMENE='MECANIQUE',
+                           TOUT='OUI'),
+                   MAILLAGE=meshMod)
+
+shellMod = AFFE_CARA_ELEM(COQUE=_F(COQUE_NCOU=1,
+                                   EPAIS=1.0,
+                                   GROUP_MA=('assy', )),
+                          MODELE=MODE)
+
+MODE2 = AFFE_MODELE(AFFE=_F(MODELISATION=('3D', ),
+                            PHENOMENE='MECANIQUE',
+                            TOUT='OUI'),
+                    MAILLAGE=MAIL)
+
+MA = DEFI_MATERIAU(ELAS=_F(E=210000.0,
+                           NU=0.3))
+
+MATE = AFFE_MATERIAU(AFFE=_F(MATER=(MA, ),
+                             TOUT='OUI'),
+                     MAILLAGE=meshMod)
+
+BC = AFFE_CHAR_MECA(DDL_IMPO=_F(DX=0.0,
+                                DY=0.0,
+                                DZ=0.0,
+                                GROUP_MA=('fix', )),
+                    MODELE=MODE)
+
+Load = AFFE_CHAR_MECA(MODELE=MODE,
+                      PRES_REP=_F(GROUP_MA=('assy', ),
+                                  PRES=1e-06))
+
+RESU = MECA_STATIQUE(CARA_ELEM=shellMod,
+                     CHAM_MATER=MATE,
+                     EXCIT=(_F(CHARGE=BC),
+                            _F(CHARGE=Load)),
+                     MODELE=MODE,
+                     OPTION='SIEF_ELGA')
+
+RESU = CALC_CHAMP(reuse=RESU,
+                  CONTRAINTE=('SIGM_ELGA', 'SIGM_ELNO'),
+                  RESULTAT=RESU)
+
+PROJ2 = PROJ_CHAMP(MODELE_1=MODE,
+                   MODELE_2=MODE2,
+                   RESULTAT=RESU)
+
+RESU2 = POST_CHAMP(EXTR_COQUE=_F(NIVE_COUCHE='SUP',
+                                 NOM_CHAM=('SIEF_ELGA', 'SIGM_ELNO'),
+                                 NUME_COUCHE=1),
+                   RESULTAT=RESU)
+
+RESU2 = CALC_CHAMP(reuse=RESU2,
+                   CARA_ELEM=shellMod,
+                   CONTRAINTE=('SIGM_NOEU', ),
+                   CRITERES=('SIEQ_NOEU', ),
+                   MODELE=MODE,
+                   RESULTAT=RESU2)
+
+PROJ = PROJ_CHAMP(MODELE_1=MODE,
+                  MODELE_2=MODE2,
+                  RESULTAT=RESU2)
+
+IMPR_RESU(FORMAT='MED',
+          RESU=(_F(NOM_CHAM=('SIGM_NOEU', 'SIEQ_NOEU'),
+                   RESULTAT=PROJ),
+                _F(NOM_CHAM=('DEPL', ),
+                   RESULTAT=PROJ2)),
+          UNITE=80)
+
+FIN()
