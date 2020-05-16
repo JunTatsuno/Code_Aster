@@ -1,0 +1,43 @@
+DEBUT(LANG='EN')
+
+mesh = LIRE_MAILLAGE(FORMAT='MED',
+                     UNITE=20)
+
+model = AFFE_MODELE(AFFE=_F(MODELISATION=('3D', ),
+                            PHENOMENE='MECANIQUE',
+                            TOUT='OUI'),
+                    MAILLAGE=mesh)
+
+mater = DEFI_MATERIAU(ELAS=_F(E=132000.0,
+                              NU=0.343,
+                              RHO=8.96e-09))
+
+materfl = AFFE_MATERIAU(AFFE=_F(MATER=(mater, ),
+                                TOUT='OUI'),
+                        MODELE=model)
+
+mecabc = AFFE_CHAR_MECA(DDL_IMPO=_F(DX=0.0,
+                                    DY=0.0,
+                                    DZ=0.0,
+                                    GROUP_MA=('fix', )),
+                        MODELE=model)
+
+ASSEMBLAGE(CHAM_MATER=materfl,
+           CHARGE=mecabc,
+           MATR_ASSE=(_F(MATRICE=CO('rigidite'),
+                         OPTION='RIGI_MECA'),
+                      _F(MATRICE=CO('masse'),
+                         OPTION='MASS_MECA')),
+           MODELE=model,
+           NUME_DDL=CO('numeddl'))
+
+result = CALC_MODES(CALC_FREQ=_F(NMAX_FREQ=5),
+                    MATR_MASS=masse,
+                    MATR_RIGI=rigidite,
+                    OPTION='PLUS_PETITE')
+
+IMPR_RESU(FORMAT='MED',
+          RESU=_F(RESULTAT=result),
+          UNITE=80)
+
+FIN()
