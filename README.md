@@ -1,7 +1,7 @@
 # SALOME-Mecaの使用法解説
 
 * [Code_Aster](https://www.code-aster.org/)とは熱・構造問題ソルバーです。
-* [Salome](https://www.salome-platform.org/)とは物理シミュレーションの汎用プラットフォームす。
+* [Salome](https://www.salome-platform.org/)とは物理シミュレーションの汎用プラットフォームです。
 
   [Salome-Meca](https://www.code-aster.org/)=Salome+Code_Aster（ソフト的統合）
 
