@@ -88,5 +88,5 @@ Wizard（Add Stage with Assistant）＞Liner thermal analysis（線形熱解析�
 
 ## License
 All content is licensed under an open-source, 'copyleft' license:
-[Attribution-ShareAlike 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/)
-![Attribution-ShareAlike 4.0 International](http://i.creativecommons.org/l/by/3.0/88x31.png)
+[Attribution 4.0 International (CC BY 4.0) ](https://creativecommons.org/licenses/by/4.0/)
+![Attribution 4.0 International (CC BY 4.0) ](http://i.creativecommons.org/l/by/3.0/88x31.png)
