@@ -1,0 +1,70 @@
+DEBUT(LANG='EN')
+
+MAIL = LIRE_MAILLAGE(FORMAT='MED',
+                     UNITE=20)
+
+MAIL = MODI_MAILLAGE(reuse=MAIL,
+                     MAILLAGE=MAIL,
+                     ORIE_NORM_COQUE=_F(GROUP_MA=('assy', )))
+
+MODE = AFFE_MODELE(AFFE=_F(MODELISATION=('DKT', ),
+                           PHENOMENE='MECANIQUE',
+                           TOUT='OUI'),
+                   MAILLAGE=MAIL)
+
+shellMod = AFFE_CARA_ELEM(COQUE=_F(EPAIS=1.0,
+                                   GROUP_MA=('assy', )),
+                          MODELE=MODE)
+
+MA = DEFI_MATERIAU(ELAS=_F(E=210000.0,
+                           NU=0.3))
+
+MATE = AFFE_MATERIAU(AFFE=_F(MATER=(MA, ),
+                             TOUT='OUI'),
+                     MODELE=MODE)
+
+BC = AFFE_CHAR_MECA(DDL_IMPO=_F(DX=0.0,
+                                DY=0.0,
+                                DZ=0.0,
+                                GROUP_MA=('fix', )),
+                    MODELE=MODE)
+
+Load = AFFE_CHAR_MECA(MODELE=MODE,
+                      PRES_REP=_F(GROUP_MA=('assy', ),
+                                  PRES=1e-06))
+
+RESU = MECA_STATIQUE(CARA_ELEM=shellMod,
+                     CHAM_MATER=MATE,
+                     EXCIT=(_F(CHARGE=BC),
+                            _F(CHARGE=Load)),
+                     MODELE=MODE)
+
+RESU = CALC_CHAMP(reuse=RESU,
+                  CARA_ELEM=shellMod,
+                  CHAM_MATER=MATE,
+                  CONTRAINTE=('SIGM_ELNO', ),
+                  CRITERES=('SIEQ_ELNO', ),
+                  MODELE=MODE,
+                  RESULTAT=RESU)
+
+RESU1 = POST_CHAMP(EXTR_COQUE=_F(NIVE_COUCHE='SUP',
+                                 NOM_CHAM=('SIGM_ELNO', 'SIEQ_ELNO'),
+                                 NUME_COUCHE=1),
+                   RESULTAT=RESU)
+
+RESU1 = CALC_CHAMP(reuse=RESU1,
+                   CARA_ELEM=shellMod,
+                   CONTRAINTE=('SIGM_NOEU', ),
+                   CRITERES=('SIEQ_NOEU', ),
+                   RESULTAT=RESU1)
+
+IMPR_RESU(FORMAT='MED',
+          RESU=(_F(MAILLAGE=MAIL,
+                   NOM_CHAM=('DEPL', ),
+                   RESULTAT=RESU),
+                _F(MAILLAGE=MAIL,
+                   NOM_CHAM=('SIEQ_NOEU', 'SIGM_NOEU'),
+                   RESULTAT=RESU1)),
+          UNITE=80)
+
+FIN()
