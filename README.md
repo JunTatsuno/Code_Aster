@@ -1,9 +1,9 @@
 # SALOME-Mecaの使用法解説
 
-* Code_Asterとは熱・構造問題ソルバーです。
-* Salomeとは物理シミュレーションの汎用プラットフォームす。
+* [Code_Aster](https://www.code-aster.org/)とは熱・構造問題ソルバーです。
+* [Salome](https://www.salome-platform.org/)とは物理シミュレーションの汎用プラットフォームす。
 
-  Salome-Meca=Salome+Code_Aster（ソフト的統合）
+  [Salome-Meca](https://www.code-aster.org/)=Salome+Code_Aster（ソフト的統合）
 
 
 [OpenCAE Users Wiki](http://opencae.gifu-nct.ac.jp/pukiwiki/index.php?OpenCAE%20Users%20Wiki)にあるFS氏ご提供の「[SALOME-Mecaの使用法解説](http://opencae.gifu-nct.ac.jp/pukiwiki/index.php?SALOME-Meca%A4%CE%BB%C8%CD%D1%CB%A1%B2%F2%C0%E2)」をSalome-Meca2019（Code_Aster14.4）用いて設定を行いました。
