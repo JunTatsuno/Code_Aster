@@ -1,0 +1,72 @@
+DEBUT(LANG='EN')
+
+MAIL = LIRE_MAILLAGE(FORMAT='MED',
+                     UNITE=20)
+
+MODE = AFFE_MODELE(AFFE=_F(MODELISATION=('3D', ),
+                           PHENOMENE='MECANIQUE',
+                           TOUT='OUI'),
+                   MAILLAGE=MAIL)
+
+elast_pl = DEFI_FONCTION(NOM_PARA='EPSI',
+                         NOM_RESU='SIGM',
+                         VALE=(0.0015, 105.0, 0.05, 200.0, 0.2, 300.0, 2.0, 3000.0))
+
+A6000 = DEFI_MATERIAU(ELAS=_F(E=70000.0,
+                              NU=0.3),
+                      TRACTION=_F(SIGM=elast_pl))
+
+MATE = AFFE_MATERIAU(AFFE=_F(MATER=(A6000, ),
+                             TOUT='OUI'),
+                     MAILLAGE=MAIL)
+
+depl_imp = DEFI_FONCTION(INTERPOL=('LIN', ),
+                         NOM_PARA='INST',
+                         PROL_DROITE='LINEAIRE',
+                         PROL_GAUCHE='CONSTANT',
+                         VALE=(0.0, 0.0, 1.0, 1.0))
+
+pas = DEFI_LIST_REEL(DEBUT=0.0,
+                     INTERVALLE=_F(JUSQU_A=1.0,
+                                   NOMBRE=5))
+
+CHAR = AFFE_CHAR_MECA(DDL_IMPO=(_F(DX=0.0,
+                                   DY=0.0,
+                                   DZ=0.0,
+                                   GROUP_MA=('fix', )),
+                                _F(DX=0.0,
+                                   DY=0.0,
+                                   GROUP_MA=('press', ))),
+                      MODELE=MODE)
+
+chr_no = AFFE_CHAR_MECA(DDL_IMPO=_F(DZ=-3.0,
+                                    GROUP_MA=('press', )),
+                        MODELE=MODE)
+
+RESU = STAT_NON_LINE(CHAM_MATER=MATE,
+                     COMPORTEMENT=_F(DEFORMATION='SIMO_MIEHE',
+                                     RELATION='VMIS_ISOT_TRAC'),
+                     CONVERGENCE=_F(ITER_GLOB_MAXI=200,
+                                    RESI_GLOB_MAXI=1e-06),
+                     EXCIT=(_F(CHARGE=CHAR),
+                            _F(CHARGE=chr_no,
+                               FONC_MULT=depl_imp)),
+                     INCREMENT=_F(LIST_INST=pas),
+                     MODELE=MODE,
+                     NEWTON=_F(PREDICTION='TANGENTE',
+                               REAC_ITER=1))
+
+RESU = CALC_CHAMP(reuse=RESU,
+                  CONTRAINTE=('SIGM_ELNO', 'SIGM_NOEU'),
+                  CRITERES=('SIEQ_ELNO', 'SIEQ_NOEU', 'EPEQ_ELNO', 'EPEQ_NOEU'),
+                  DEFORMATION=('EPSP_ELNO', 'EPSP_NOEU'),
+                  MODELE=MODE,
+                  RESULTAT=RESU)
+
+IMPR_RESU(FORMAT='MED',
+          RESU=_F(MAILLAGE=MAIL,
+                  NOM_CHAM=('DEPL', 'EPEQ_NOEU', 'SIEQ_NOEU', 'SIGM_NOEU'),
+                  RESULTAT=RESU),
+          UNITE=80)
+
+FIN()
