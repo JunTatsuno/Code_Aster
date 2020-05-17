@@ -60,9 +60,9 @@ Wizard（Add Stage with Assistant）では圧力荷重しか設定ができま�
 
 ## 7.1 塑性（負荷を変化）
 弾塑性変形はモデルに負荷をかけて変形（弾性変形＋塑性変形）させた後、負荷を取り除いても塑性変形が残り、元の形状には戻りません。
-このような解析を行うには塑性変形させた後に負荷を取り除くことになりますので、負荷の大きさを時間的に変化させ解析する必要があります。
-* [変位拘束](https://github.com/JunTatsuno/Code_Aster/tree/master/plastic-pole-reloded)
-* [荷重拘束](https://github.com/JunTatsuno/Code_Aster/tree/master/plastic-pole-reloded)
+このような解析を行うには塑性変形させた後に負荷を取り除くことになりますので、負荷の大きさを時間的に変化させながら解析する必要があります。
+* [変位拘束](https://github.com/JunTatsuno/Code_Aster/tree/master/plastic-pole-reloded)：pole-reload-distance.comm pole-1.med
+* [荷重拘束](https://github.com/JunTatsuno/Code_Aster/tree/master/plastic-pole-reloded)：pole-reload-force.com pole-1.med
 
 ## 7.2 塑性（結果の検証）
 
