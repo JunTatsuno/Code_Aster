@@ -43,7 +43,7 @@ Wizard（Add Stage with Assistant）では圧力荷重しか設定ができま�
 ## 6.0 接触解析の基本
 2個のSolidが接触した状態で、荷重や変位を相手に伝えて変形していく問題です。
 接触面ですべりが生じたり、変形とともに接触位置が変わっていく問題をとくために、負荷（荷重や位置）を少しずつかけていき、その都度、解を求めて最終的な解を求める非線形解析を行います。
-* 単純モデルの場合
+* [単純モデルの場合](https://github.com/JunTatsuno/Code_Aster/tree/master/contact-bar)：multi-bar.comm multi-bar.med
 * 接触面積が増加するモデルの場合
 * 接触面積が減少するモデルの場合
 
