@@ -11,10 +11,17 @@
 各フォルダには、メッシュファイル(.med)とCode_Asterコマンドファイル(.comm)が含まれています。
 
 ## 1.0 基本 Salomeの使い方
-Wizard（Add Stage with Assistant）＞Isotropic liner elasticity（等方性線形弾性）による手順
+荷重の負荷方法として圧力荷重（面に垂直方向の圧力）の設定を行います。
+Wizard（Add Stage with Assistant）＞Isotropic liner elasticity（等方性線形弾性）による手順です。
 * [単純な片持ち梁](https://github.com/JunTatsuno/Code_Aster/tree/master/basic)：basic-bar.comm basic-bar.med
 
 ## 2.0 境界条件の設定
+Wizard（Add Stage with Assistant）では圧力荷重しか設定ができません。
+面、線、点に各方向の荷重を付加する、あるいは変位を設定して解析を行います。
+* [面に働く荷重で指定](https://github.com/JunTatsuno/Code_Aster/tree/master/bar-2)：FORCE_FACE.comm bar-2.med
+* [線に働く荷重で説明](https://github.com/JunTatsuno/Code_Aster/tree/master/bar-2)：FORCE_ARETE bar-2.med
+* [点に働く荷重で説明](https://github.com/JunTatsuno/Code_Aster/tree/master/bar-2)：FORCE_NODALE.comm bar-2.med
+* [変位の設定](https://github.com/JunTatsuno/Code_Aster/tree/master/bar-2)：DDL_IMPO.comm bar-2.med
 
 ## 3.0 複合材料の設定
 複合材とは材質の異なる形状のものが組み合わさって構成されるモデルです。
@@ -72,7 +79,7 @@ Wizard（Add Stage with Assistant）＞Isotropic liner elasticity（等方性線
 * 非線形熱応力解析
 
 ## 10.0 モーダル解析
-Wizard（Add Stage with Assistant）＞Modal analysys（モーダル解析）による手順
+Wizard（Add Stage with Assistant）＞Modal analysys（モーダル解析）による手順です。
 * [単純モデルの解析](https://github.com/JunTatsuno/Code_Aster/tree/master/modal)：bar100.comm bar100.med
 * [L字モデルの解析](https://github.com/JunTatsuno/Code_Aster/tree/master/modal)：modal-bar.comm modal-bar.med
 
@@ -84,7 +91,7 @@ Wizard（Add Stage with Assistant）＞Modal analysys（モーダル解析）に
 
 ## 13.0 熱流解析
 モデルの1部に発熱部がある場合のモデル各部の温度分布を求めます。
-Wizard（Add Stage with Assistant）＞Liner thermal analysis（線形熱解析）による手順。
+Wizard（Add Stage with Assistant）＞Liner thermal analysis（線形熱解析）による手順です。
 
 ## 14.0 温度構造錬成解析（１）
 
