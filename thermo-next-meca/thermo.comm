@@ -1,0 +1,31 @@
+DEBUT(LANG='EN')
+
+mesh = LIRE_MAILLAGE(FORMAT='MED',
+                     UNITE=20)
+
+model = AFFE_MODELE(AFFE=_F(MODELISATION='3D',
+                            PHENOMENE='THERMIQUE',
+                            TOUT='OUI'),
+                    MAILLAGE=mesh)
+
+mater = DEFI_MATERIAU(THER=_F(LAMBDA=83.5))
+
+matfield = AFFE_MATERIAU(AFFE=_F(MATER=mater,
+                                 TOUT='OUI'),
+                         MAILLAGE=mesh)
+
+loadst = AFFE_CHAR_THER(FLUX_REP=_F(FLUN=500.0,
+                                    GROUP_MA=('heat', )),
+                        MODELE=model,
+                        TEMP_IMPO=_F(GROUP_MA=('const', ),
+                                     TEMP=20.0))
+
+temp = THER_LINEAIRE(CHAM_MATER=matfield,
+                     EXCIT=_F(CHARGE=loadst),
+                     MODELE=model)
+
+IMPR_RESU(FORMAT='MED',
+          RESU=_F(RESULTAT=temp),
+          UNITE=80)
+
+FIN()
