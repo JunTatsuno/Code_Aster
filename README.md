@@ -50,8 +50,9 @@ Wizard（Add Stage with Assistant）では圧力荷重しか設定ができま�
 ## 6.1 接触解析（摩擦あり）
 接触問題を解くにあたって、通常は、その接触面に摩擦力が働きます。
 そのため、ここで接触面にすべりが発生し、摩擦力が働くものとして、接触問題を解きます。
-* 変位拘束の接触解析（摩擦あり）
-* 荷重拘束の接触解析（摩擦あり）
+* [変位拘束の接触解析（摩擦なし）](https://github.com/JunTatsuno/Code_Aster/tree/master/contactBaseTop)：basicTop-distance.comm Mesh_1.med
+* [変位拘束の接触解析（摩擦あり）](https://github.com/JunTatsuno/Code_Aster/tree/master/contactBaseTop)：basicTop-distance-friction.comm Mesh_1.med
+* [荷重拘束の接触解析（摩擦あり）](https://github.com/JunTatsuno/Code_Aster/tree/master/contactBaseTop)：basicTop-force.comm Mesh_1.med
 
 ## 7.0 塑性変形の基本
 材料の応力と歪の関係が弾性域では比例しているため、構造解析（線形）の解は容易に求めることができますが、塑性域に入りますと、応力と歪の関係が線形ではなく、非線形となるため、解を求めることが難しくなります。
