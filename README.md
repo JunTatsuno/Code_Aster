@@ -54,12 +54,15 @@ Wizard（Add Stage with Assistant）では圧力荷重しか設定ができま�
 * 荷重拘束の接触解析（摩擦あり）
 
 ## 7.0 塑性変形の基本
+材料の応力と歪の関係が弾性域では比例しているため、構造解析（線形）の解は容易に求めることができますが、塑性域に入りますと、応力と歪の関係が線形ではなく、非線形となるため、解を求めることが難しくなります。
 * [単純な片持ち梁](https://github.com/JunTatsuno/Code_Aster/tree/master/plastic)：bar.comm bar.med
 * [円柱の圧縮](https://github.com/JunTatsuno/Code_Aster/tree/master/plastic-pole)：plastic-pole.comm pole.med
 
 ## 7.1 塑性（負荷を変化）
-* 変位拘束
-* 荷重拘束
+弾塑性変形はモデルに負荷をかけて変形（弾性変形＋塑性変形）させた後、負荷を取り除いても塑性変形が残り、元の形状には戻りません。
+このような解析を行うには塑性変形させた後に負荷を取り除くことになりますので、負荷の大きさを時間的に変化させ解析する必要があります。
+* [変位拘束](https://github.com/JunTatsuno/Code_Aster/tree/master/plastic-pole-reloded)
+* [荷重拘束](https://github.com/JunTatsuno/Code_Aster/tree/master/plastic-pole-reloded)
 
 ## 7.2 塑性（結果の検証）
 
