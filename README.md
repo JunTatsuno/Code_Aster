@@ -83,7 +83,8 @@ Wizard（Add Stage with Assistant）＞Modal analysys（モーダル解析）に
 ## 12.0 動解析（過渡応答）
 
 ## 13.0 熱流解析
-Wizard（Add Stage with Assistant）＞Liner thermal analysis（線形熱解析）による手順
+モデルの1部に発熱部がある場合のモデル各部の温度分布を求めます。
+Wizard（Add Stage with Assistant）＞Liner thermal analysis（線形熱解析）による手順。
 
 ## 14.0 温度構造錬成解析（１）
 
@@ -92,6 +93,8 @@ Wizard（Add Stage with Assistant）＞Liner thermal analysis（線形熱解析�
 ## 15.0 温度構造解析連携
 
 ## 16.0 シェル解析（基本）
+シェルは2Dの平面であり、板厚が無いので、メッシュを切ったとき、メッシュ数が少なくてすみます。
+簡単なシェルモデルを使って解析を行います。
 * [1次メッシュの場合](https://github.com/JunTatsuno/Code_Aster/tree/master/shell-1P)：DKTshel-1P.comm DKTshel-1P.med
 * [高次メッシュの場合](https://github.com/JunTatsuno/Code_Aster/tree/master/shell-1P)：COQUEshell-1P.comm COQUEshell-1P.med
 
