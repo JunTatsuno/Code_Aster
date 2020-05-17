@@ -1,0 +1,71 @@
+DEBUT(LANG='EN')
+
+MAIL = LIRE_MAILLAGE(FORMAT='MED',
+                     UNITE=20)
+
+MAIL = MODI_MAILLAGE(reuse=MAIL,
+                     MAILLAGE=MAIL,
+                     ORIE_PEAU_3D=_F(GROUP_MA=('press', )))
+
+MODE = AFFE_MODELE(AFFE=_F(MODELISATION=('3D', ),
+                           PHENOMENE='MECANIQUE',
+                           TOUT='OUI'),
+                   MAILLAGE=MAIL)
+
+MA = DEFI_MATERIAU(ELAS=_F(E=130300.0,
+                           NU=0.343))
+
+MATE = AFFE_MATERIAU(AFFE=_F(MATER=(MA, ),
+                             TOUT='OUI'),
+                     MAILLAGE=MAIL)
+
+ramp = DEFI_FONCTION(NOM_PARA='INST',
+                     VALE=(0.0, 0.0, 1.0, 1.0))
+
+inst = DEFI_LIST_REEL(DEBUT=0.0,
+                      INTERVALLE=_F(JUSQU_A=1.0,
+                                    PAS=0.2))
+
+CHAR = AFFE_CHAR_MECA(DDL_IMPO=(_F(DX=0.0,
+                                   DY=0.0,
+                                   DZ=0.0,
+                                   GROUP_MA=('fix', )),
+                                _F(DX=0.0,
+                                   DY=0.0,
+                                   GROUP_MA=('press', ))),
+                      MODELE=MODE)
+
+loadP = AFFE_CHAR_MECA(DDL_IMPO=_F(DZ=-0.2,
+                                   GROUP_MA=('press', )),
+                       MODELE=MODE)
+
+contact = DEFI_CONTACT(FORMULATION='DISCRETE',
+                       MODELE=MODE,
+                       ZONE=_F(ALGO_CONT='CONTRAINTE',
+                               GROUP_MA_ESCL=('contBar', ),
+                               GROUP_MA_MAIT=('contBase', )))
+
+RESU = STAT_NON_LINE(CHAM_MATER=MATE,
+                     COMPORTEMENT=_F(RELATION='ELAS'),
+                     CONTACT=contact,
+                     EXCIT=(_F(CHARGE=CHAR),
+                            _F(CHARGE=loadP,
+                               FONC_MULT=ramp)),
+                     INCREMENT=_F(LIST_INST=inst),
+                     MODELE=MODE,
+                     NEWTON=_F(REAC_ITER=1))
+
+RESU = CALC_CHAMP(reuse=RESU,
+                  CHAM_MATER=MATE,
+                  CONTRAINTE=('SIGM_ELNO', 'SIGM_NOEU'),
+                  CRITERES=('SIEQ_ELNO', 'SIEQ_NOEU'),
+                  MODELE=MODE,
+                  RESULTAT=RESU)
+
+IMPR_RESU(FORMAT='MED',
+          RESU=_F(MAILLAGE=MAIL,
+                  NOM_CHAM=('DEPL', 'SIEQ_NOEU', 'SIGM_NOEU'),
+                  RESULTAT=RESU),
+          UNITE=80)
+
+FIN()
