@@ -57,9 +57,13 @@ Wizard（Add Stage with Assistant）＞Isotropic liner elasticity（等方性線
 ## 7.2 塑性（結果の検証）
 
 ## 8.0 塑性と接触
-* 単純モデルの場合
-* かしめのモデルの場合
-* 治具による かしめのモデルの場合
+塑性問題を扱う中で、加工（かしめ加工やプレス加工）を考えると、接触と塑性の解析が必要になってきます。
+例えば、プレス加工を考えたとき、パンチが材料を押し潰し、塑性変形させて加工します。
+パンチと材料は接触して、パンチが材料を塑性変形させますので、塑性変形と接触を同時に扱う非線形解析を行う必要があります。
+
+* [単純モデルの場合](https://github.com/JunTatsuno/Code_Aster/tree/master/plastic-contact-ASTK)：mutli-bar-pl.comm mutli-bar-pl.med
+* [かしめのモデルの場合](https://github.com/JunTatsuno/Code_Aster/tree/master/plastic-contact-ASTK)：pole-ring-pl.comm pole-ring-pl.med
+* [治具による かしめのモデルの場合](https://github.com/JunTatsuno/Code_Aster/tree/master/plastic-contact-ASTK)：pole-ring-jig-pl.comm pole-ring-jig-pl.med
 
 ## 9.0 熱応力と弾塑性（基本）
 
