@@ -1,0 +1,99 @@
+DEBUT(LANG='EN')
+
+MAIL = LIRE_MAILLAGE(FORMAT='MED',
+                     UNITE=20)
+
+MAIL = MODI_MAILLAGE(reuse=MAIL,
+                     MAILLAGE=MAIL,
+                     ORIE_PEAU_3D=_F(GROUP_MA=('press', )))
+
+MODE = AFFE_MODELE(AFFE=_F(MODELISATION=('3D', ),
+                           PHENOMENE='MECANIQUE',
+                           TOUT='OUI'),
+                   MAILLAGE=MAIL)
+
+elast_pl = DEFI_FONCTION(NOM_PARA='EPSI',
+                         VALE=(0.0015, 105.0, 0.05, 200.0, 0.2, 300.0, 2.0, 1000.0))
+
+A6000 = DEFI_MATERIAU(ELAS=_F(E=70000.0,
+                              NU=0.3),
+                      TRACTION=_F(SIGM=elast_pl))
+
+MATE = AFFE_MATERIAU(AFFE=_F(MATER=(A6000, ),
+                             TOUT='OUI'),
+                     MAILLAGE=MAIL)
+
+depl_imp = DEFI_FONCTION(NOM_PARA='INST',
+                         VALE=(0.0, 0.0, 1.0, 0.8, 2.0, 0.0, 3.0, -1.0, 4.0, 0.0))
+
+pas = DEFI_LIST_REEL(DEBUT=0.0,
+                     INTERVALLE=(_F(JUSQU_A=1.0,
+                                    NOMBRE=5),
+                                 _F(JUSQU_A=1.02,
+                                    NOMBRE=2),
+                                 _F(JUSQU_A=2.0,
+                                    NOMBRE=5),
+                                 _F(JUSQU_A=2.02,
+                                    NOMBRE=2),
+                                 _F(JUSQU_A=3.0,
+                                    NOMBRE=5),
+                                 _F(JUSQU_A=3.02,
+                                    NOMBRE=2),
+                                 _F(JUSQU_A=4.0,
+                                    NOMBRE=5)))
+
+chr_no = AFFE_CHAR_MECA(FORCE_FACE=_F(FZ=200.0,
+                                      GROUP_MA=('press', )),
+                        MODELE=MODE)
+
+CHAR = AFFE_CHAR_MECA(DDL_IMPO=(_F(DZ=0.0,
+                                   GROUP_MA=('fix', )),
+                                _F(DX=0.0,
+                                   DZ=0.0,
+                                   GROUP_MA=('fixLY', )),
+                                _F(DX=0.0,
+                                   DY=0.0,
+                                   DZ=0.0,
+                                   GROUP_NO=('fixP', ))),
+                      LIAISON_UNIF=_F(DDL=('DX', 'DY', 'DZ'),
+                                      GROUP_MA=('press', )),
+                      MODELE=MODE)
+
+RESU = STAT_NON_LINE(CHAM_MATER=MATE,
+                     COMPORTEMENT=_F(DEFORMATION='SIMO_MIEHE',
+                                     RELATION='VMIS_ISOT_TRAC'),
+                     CONVERGENCE=_F(ITER_GLOB_MAXI=200,
+                                    RESI_GLOB_MAXI=1e-06),
+                     EXCIT=(_F(CHARGE=CHAR),
+                            _F(CHARGE=chr_no,
+                               FONC_MULT=depl_imp)),
+                     INCREMENT=_F(LIST_INST=pas),
+                     METHODE='NEWTON',
+                     MODELE=MODE,
+                     NEWTON=_F(REAC_ITER=1))
+
+RESU = CALC_CHAMP(reuse=RESU,
+                  CONTRAINTE=('SIGM_ELNO', 'SIGM_NOEU'),
+                  CRITERES=('SIEQ_ELNO', 'SIEQ_NOEU', 'EPEQ_ELNO', 'EPEQ_NOEU'),
+                  DEFORMATION=('EPSP_ELNO', 'EPSP_NOEU'),
+                  MODELE=MODE,
+                  RESULTAT=RESU)
+
+IMPR_RESU(FORMAT='MED',
+          RESU=(_F(MAILLAGE=MAIL,
+                   NOM_CHAM=('DEPL', ),
+                   NOM_CMP=('DX', 'DY', 'DZ'),
+                   RESULTAT=RESU),
+                _F(MAILLAGE=MAIL,
+                   NOM_CHAM=('EPSP_NOEU', ),
+                   RESULTAT=RESU),
+                _F(MAILLAGE=MAIL,
+                   NOM_CHAM=('SIEQ_NOEU', ),
+                   NOM_CMP=('VMIS', ),
+                   RESULTAT=RESU),
+                _F(MAILLAGE=MAIL,
+                   NOM_CHAM=('EPEQ_NOEU', ),
+                   RESULTAT=RESU)),
+          UNITE=80)
+
+FIN()
