@@ -66,6 +66,9 @@ Wizard（Add Stage with Assistant）では圧力荷重しか設定ができま�
 * [荷重拘束](https://github.com/JunTatsuno/Code_Aster/tree/master/plastic-pole-reloded)：pole-reload-force.com pole-1.med
 
 ## 7.2 塑性（結果の検証）
+弾塑性解析では、塑性領域まで負荷を掛けた後で負荷を取り除いたとき、塑性変形が残ったままになります。
+実際にこの方法で理論通り変形しているかどうかを確認します。
+* [単純な立方体のモデル](https://github.com/JunTatsuno/Code_Aster/tree/master/plastic-ana)：analize-cubic.comm cubic10.med
 
 ## 8.0 塑性と接触
 塑性問題を扱う中で、加工（かしめ加工やプレス加工）を考えると、接触と塑性の解析が必要になってきます。
