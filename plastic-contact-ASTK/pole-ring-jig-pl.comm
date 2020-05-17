@@ -1,0 +1,106 @@
+DEBUT(LANG='EN')
+
+MAIL = LIRE_MAILLAGE(FORMAT='MED',
+                     UNITE=20)
+
+MAIL = MODI_MAILLAGE(reuse=MAIL,
+                     MAILLAGE=MAIL,
+                     ORIE_PEAU_3D=_F(GROUP_MA=('press', 'contPT', 'contP', 'contJR')))
+
+MODE = AFFE_MODELE(AFFE=_F(MODELISATION=('3D', ),
+                           PHENOMENE='MECANIQUE',
+                           TOUT='OUI'),
+                   MAILLAGE=MAIL)
+
+elast_pl = DEFI_FONCTION(NOM_PARA='EPSI',
+                         NOM_RESU='SIGM',
+                         VALE=(0.05, 200.0, 0.2, 300.0, 2.0, 1000.0))
+
+A6000 = DEFI_MATERIAU(ELAS=_F(E=70000.0,
+                              NU=0.3),
+                      TRACTION=_F(SIGM=elast_pl))
+
+elast_ma = DEFI_FONCTION(NOM_PARA='EPSI',
+                         NOM_RESU='SIGM',
+                         VALE=(1.0, 130300.0, 2.0, 160000.0))
+
+MA = DEFI_MATERIAU(ELAS=_F(E=130300.0,
+                           NU=0.343),
+                   TRACTION=_F(SIGM=elast_ma))
+
+MATE = AFFE_MATERIAU(AFFE=(_F(GROUP_MA=('Pole', ),
+                              MATER=(A6000, )),
+                           _F(GROUP_MA=('Ring', 'JIg'),
+                              MATER=(MA, ))),
+                     MAILLAGE=MAIL)
+
+ramp = DEFI_FONCTION(NOM_PARA='INST',
+                     VALE=(0.0, 0.0, 1.0, 1.0, 2.0, -1.0))
+
+inst = DEFI_LIST_REEL(DEBUT=0.0,
+                      INTERVALLE=(_F(JUSQU_A=0.02,
+                                     NOMBRE=2),
+                                  _F(JUSQU_A=1.0,
+                                     NOMBRE=5),
+                                  _F(JUSQU_A=1.01,
+                                     NOMBRE=4),
+                                  _F(JUSQU_A=1.1,
+                                     NOMBRE=5),
+                                  _F(JUSQU_A=2.0,
+                                     NOMBRE=5)))
+
+CHAR = AFFE_CHAR_MECA(DDL_IMPO=(_F(DX=0.0,
+                                   DY=0.0,
+                                   DZ=0.0,
+                                   GROUP_MA=('fix', 'fixOut')),
+                                _F(DX=0.0,
+                                   DY=0.0,
+                                   GROUP_MA=('press', 'contPT')),
+                                _F(DY=0.0,
+                                   GROUP_MA=('fixYP', 'fixYR', 'fixYJ')),
+                                _F(DX=0.0,
+                                   GROUP_MA=('fixXP', 'fixXR', 'fixXJ'))),
+                      MODELE=MODE)
+
+loadP = AFFE_CHAR_MECA(DDL_IMPO=_F(DZ=-2.2,
+                                   GROUP_MA=('press', )),
+                       MODELE=MODE)
+
+contact = DEFI_CONTACT(MODELE=MODE,
+                       ZONE=_F(ALGO_CONT='CONTRAINTE',
+                               APPARIEMENT='MAIT_ESCL',
+                               GROUP_MA_ESCL=('contP', ),
+                               GROUP_MA_MAIT=('contJR', ),
+                               TYPE_PROJECTION='ORTHOGONALE'))
+
+RESU = STAT_NON_LINE(ARCHIVAGE=_F(PAS_ARCH=1),
+                     CHAM_MATER=MATE,
+                     COMPORTEMENT=_F(DEFORMATION='SIMO_MIEHE',
+                                     RELATION='VMIS_ISOT_TRAC',
+                                     TOUT='OUI'),
+                     CONTACT=contact,
+                     CONVERGENCE=_F(ITER_GLOB_MAXI=50),
+                     EXCIT=(_F(CHARGE=CHAR),
+                            _F(CHARGE=loadP,
+                               FONC_MULT=ramp)),
+                     INCREMENT=_F(LIST_INST=inst),
+                     MODELE=MODE,
+                     NEWTON=_F(MATRICE='TANGENTE',
+                               PREDICTION='TANGENTE',
+                               REAC_INCR=1,
+                               REAC_ITER=1))
+
+RESU = CALC_CHAMP(reuse=RESU,
+                  CHAM_MATER=MATE,
+                  CONTRAINTE=('SIGM_ELNO', 'SIGM_NOEU'),
+                  CRITERES=('SIEQ_ELNO', 'SIEQ_NOEU', 'EPEQ_ELNO', 'EPEQ_NOEU'),
+                  DEFORMATION=('EPSP_ELNO', 'EPSP_NOEU'),
+                  MODELE=MODE,
+                  RESULTAT=RESU)
+
+IMPR_RESU(FORMAT='MED',
+          RESU=_F(NOM_CHAM=('DEPL', 'SIEQ_NOEU', 'SIGM_NOEU', 'EPEQ_NOEU', 'EPSP_NOEU'),
+                  RESULTAT=RESU),
+          UNITE=2)
+
+FIN()
