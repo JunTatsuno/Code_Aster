@@ -109,7 +109,8 @@ Wizard（Add Stage with Assistant）＞Liner thermal analysis（線形熱解析�
 ## 14.1 温度構造錬成解析（２）
 
 ## 15.0 温度構造解析連携
-
+熱流解析を行って温度分布を求めた後、その答えを読み込み構造解析を行います。
+* [L字モデルの解析](https://github.com/JunTatsuno/Code_Aster/tree/master/thermo-next-meca)：thermo.comm thermo-next-meca.med meca.comm
 ## 16.0 シェル解析（基本）
 シェルは2Dの平面であり、板厚が無いので、メッシュを切ったとき、メッシュ数が少なくてすみます。
 簡単なシェルモデルを使って解析を行います。
