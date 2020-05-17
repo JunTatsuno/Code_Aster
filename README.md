@@ -1,6 +1,6 @@
 # SALOME-Mecaの使用法解説
 
-* [Code_Aster](https://www.code-aster.org/)とは熱・構造問題ソルバーです。
+* [Code_Aster](https://www.code-aster.org/)とは熱・構造解析ソルバーです。
 * [Salome](https://www.salome-platform.org/)とは物理シミュレーションの汎用プラットフォームです。
 
   [Salome-Meca](https://www.code-aster.org/)=Salome+Code_Aster（ソフト的統合）
@@ -73,12 +73,19 @@ Wizard（Add Stage with Assistant）では圧力荷重しか設定ができま�
 * [治具による かしめのモデルの場合](https://github.com/JunTatsuno/Code_Aster/tree/master/plastic-contact-ASTK)：pole-ring-jig-pl.comm pole-ring-jig-pl.med
 
 ## 9.0 熱応力と弾塑性（基本）
+P板製品のように素子がはんだ付けされている製品で、部品の熱応力によって、はんだに歪みが発生してクラックに至るケースがあります。
+このような場合のはんだ歪（塑性歪）の解析います。
+* [単純な片持ち梁](https://github.com/JunTatsuno/Code_Aster/tree/master/thermo-bar)：bar.comm bar.med
 
 ## 9.1 熱応力と弾塑性（はんだ）
-* 線形熱応力解析
-* 非線形熱応力解析
+9.0 熱応力と弾塑性（基本）では、単純な四角柱モデルを使いましたが、チップレジスタのはんだ歪を解析します。
+* [線形熱応力解析](https://github.com/JunTatsuno/Code_Aster/tree/master/solder-chipR)：chip-sol.comm chip-sol.med
+* [非線形熱応力解析](https://github.com/JunTatsuno/Code_Aster/tree/master/solder-chipR)：chip-sol.comm chip-sol-pl.med
 
 ## 10.0 モーダル解析
+構造解析を行う場合、構造物の固有振動数が、どこにあるのか、また、その周波数で共振した場合、どのような形状で共振しているかが問題になることがあります。
+共振して構造物が破壊する場合、これらのことがわかれば対策がとれます。
+ここでは固有振動数と変形形状を解析（モーダル解析）します。
 Wizard（Add Stage with Assistant）＞Modal analysys（モーダル解析）による手順です。
 * [単純モデルの解析](https://github.com/JunTatsuno/Code_Aster/tree/master/modal)：bar100.comm bar100.med
 * [L字モデルの解析](https://github.com/JunTatsuno/Code_Aster/tree/master/modal)：modal-bar.comm modal-bar.med
