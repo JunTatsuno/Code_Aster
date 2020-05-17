@@ -92,6 +92,7 @@ Wizard（Add Stage with Assistant）＞Modal analysys（モーダル解析）に
 ## 13.0 熱流解析
 モデルの1部に発熱部がある場合のモデル各部の温度分布を求めます。
 Wizard（Add Stage with Assistant）＞Liner thermal analysis（線形熱解析）による手順です。
+* [L字モデルの解析](https://github.com/JunTatsuno/Code_Aster/tree/master/thermo)
 
 ## 14.0 温度構造錬成解析（１）
 
