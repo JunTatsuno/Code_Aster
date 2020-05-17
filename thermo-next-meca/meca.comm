@@ -1,0 +1,40 @@
+POURSUITE(LANG='EN')
+
+model2 = AFFE_MODELE(AFFE=_F(MODELISATION=('3D', ),
+                             PHENOMENE='MECANIQUE',
+                             TOUT='OUI'),
+                     MAILLAGE=mesh)
+
+mater2 = DEFI_MATERIAU(ELAS=_F(ALPHA=1.17e-05,
+                               E=210000.0,
+                               NU=0.293))
+
+materfl = AFFE_MATERIAU(AFFE=_F(MATER=(mater2, ),
+                                TOUT='OUI'),
+                        AFFE_VARC=_F(EVOL=temp,
+                                     NOM_VARC='TEMP',
+                                     VALE_REF=20.0),
+                        MAILLAGE=mesh,
+                        MODELE=model2)
+
+mecabc = AFFE_CHAR_MECA(DDL_IMPO=_F(DX=0.0,
+                                    DY=0.0,
+                                    DZ=0.0,
+                                    GROUP_MA=('const', 'heat')),
+                        MODELE=model2)
+
+result = MECA_STATIQUE(CHAM_MATER=materfl,
+                       EXCIT=_F(CHARGE=mecabc),
+                       MODELE=model2)
+
+result = CALC_CHAMP(reuse=result,
+                    CONTRAINTE=('SIGM_ELNO', 'SIGM_NOEU'),
+                    CRITERES=('SIEQ_ELNO', 'SIEQ_NOEU'),
+                    MODELE=model2,
+                    RESULTAT=result)
+
+IMPR_RESU(FORMAT='MED',
+          RESU=_F(RESULTAT=result),
+          UNITE=2)
+
+FIN()
