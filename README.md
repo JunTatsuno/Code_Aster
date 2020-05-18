@@ -46,8 +46,8 @@ Wizard（Add Stage with Assistant）では圧力荷重しか設定ができま�
 * [単純モデル、変位拘束の場合](https://github.com/JunTatsuno/Code_Aster/tree/master/contact-bar)：multi-bar.comm multi-bar.med
 * [接触面積が増加するモデル、変位拘束の場合](https://github.com/JunTatsuno/Code_Aster/tree/master/contact-R)：multi-bar-R.comm multi-bar-R.med
 * [接触面積が減少するモデル、変位拘束の場合](https://github.com/JunTatsuno/Code_Aster/tree/master/contact-plate)：contact-plate.comm contact-plate.med
-* 荷重拘束の場合
-* 荷重拘束（弱いバネを追加）の場合
+* [荷重拘束の場合](https://github.com/JunTatsuno/Code_Aster/tree/master/test_F)：test_F.comm test_F.med
+* [荷重拘束（弱いバネを追加）の場合](https://github.com/JunTatsuno/Code_Aster/tree/master/test-addSP)：test-addSP.comm test-addSP.med
 
 ## 6.1 接触解析（摩擦あり）
 接触問題を解くにあたって、通常は、その接触面に摩擦力が働きます。
@@ -55,7 +55,6 @@ Wizard（Add Stage with Assistant）では圧力荷重しか設定ができま�
 * [変位拘束の接触解析（摩擦なし）](https://github.com/JunTatsuno/Code_Aster/tree/master/contactBaseTop)：basicTop-distance.comm Mesh_1.med
 * [変位拘束の接触解析（摩擦あり）](https://github.com/JunTatsuno/Code_Aster/tree/master/contactBaseTop)：basicTop-distance-friction.comm Mesh_1.med
 * [荷重拘束の接触解析（摩擦あり）](https://github.com/JunTatsuno/Code_Aster/tree/master/contactBaseTop)：basicTop-force.comm Mesh_1.med
-
 ## 7.0 塑性変形の基本
 材料の応力と歪の関係が弾性域では比例しているため、構造解析（線形）の解は容易に求めることができますが、塑性域に入りますと、応力と歪の関係が線形ではなく、非線形となるため、解を求めることが難しくなります。
 * [単純な片持ち梁](https://github.com/JunTatsuno/Code_Aster/tree/master/plastic)：bar.comm bar.med
