@@ -1,0 +1,66 @@
+DEBUT(LANG='EN')
+
+MESH = LIRE_MAILLAGE(FORMAT='MED',
+                     UNITE=20)
+
+MODEL = AFFE_MODELE(AFFE=_F(MODELISATION='3D',
+                            PHENOMENE='THERMIQUE',
+                            TOUT='OUI'),
+                    MAILLAGE=MESH)
+
+MOmeca = AFFE_MODELE(AFFE=_F(MODELISATION=('3D', ),
+                             PHENOMENE='MECANIQUE',
+                             TOUT='OUI'),
+                     MAILLAGE=MESH)
+
+MATER = DEFI_MATERIAU(ELAS=_F(ALPHA=1.17e-05,
+                              E=210000.0,
+                              NU=0.293),
+                      THER=_F(LAMBDA=83.5))
+
+MATFIELD = AFFE_MATERIAU(AFFE=_F(MATER=MATER,
+                                 TOUT='OUI'),
+                         MAILLAGE=MESH)
+
+LOADING = AFFE_CHAR_THER(FLUX_REP=_F(FLUN=500.0,
+                                     GROUP_MA=('heat', )),
+                         MODELE=MODEL,
+                         TEMP_IMPO=_F(GROUP_MA=('const', ),
+                                      TEMP=20.0))
+
+BCond = AFFE_CHAR_MECA(DDL_IMPO=_F(DX=0.0,
+                                   DY=0.0,
+                                   DZ=0.0,
+                                   GROUP_MA=('const', 'heat')),
+                       MODELE=MOmeca)
+
+TEMP = THER_LINEAIRE(CHAM_MATER=MATFIELD,
+                     EXCIT=_F(CHARGE=LOADING),
+                     MODELE=MODEL)
+
+Tmat = AFFE_MATERIAU(AFFE=_F(MATER=(MATER, ),
+                             TOUT='OUI'),
+                     AFFE_VARC=_F(EVOL=TEMP,
+                                  NOM_VARC='TEMP',
+                                  TOUT='OUI',
+                                  VALE_REF=20.0),
+                     MAILLAGE=MESH)
+
+RESU = MECA_STATIQUE(CHAM_MATER=Tmat,
+                     EXCIT=_F(CHARGE=BCond),
+                     MODELE=MOmeca)
+
+RESU = CALC_CHAMP(reuse=RESU,
+                  CHAM_MATER=Tmat,
+                  CONTRAINTE=('SIGM_ELNO', 'SIGM_NOEU'),
+                  CRITERES=('SIEQ_ELNO', 'SIEQ_NOEU'),
+                  MODELE=MOmeca,
+                  RESULTAT=RESU)
+
+IMPR_RESU(FORMAT='MED',
+          RESU=(_F(RESULTAT=TEMP),
+                _F(NOM_CHAM=('DEPL', 'SIEQ_NOEU', 'SIGM_NOEU'),
+                   RESULTAT=RESU)),
+          UNITE=80)
+
+FIN()
