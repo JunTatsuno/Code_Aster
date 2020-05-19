@@ -109,9 +109,9 @@ Wizard（Add Stage with Assistant）＞Modal analysys（モーダル解析）に
 Wizard（Add Stage with Assistant）＞Liner thermal analysis（線形熱解析）による手順です。
 * [L字モデルの解析](https://github.com/JunTatsuno/Code_Aster/tree/master/thermo)：bar2.comm bar2.med
 
-## 14.0 温度構造錬成解析（１）
-
-## 14.1 温度構造錬成解析（２）
+## 14.0 温度構造錬成解析
+熱流解析を行って温度分布を求めた後、その答えを使って構造解析を行い、変位や応力を求めます。異なる解析を連続して行い、解を求めます。
+* [L字モデルの解析](https://github.com/JunTatsuno/Code_Aster/upload/master/thermo-meca)：thermo-meca.comm thermo-meca.med
 
 ## 15.0 温度構造解析連携
 熱流解析を行って温度分布を求めた後、その答えを読み込み構造解析を行います。
